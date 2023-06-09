@@ -1,0 +1,51 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+
+#define BLOCK_SIZE 4096 
+#define NUM_BLOCKS 100 
+
+int index_block[NUM_BLOCKS]; 
+
+void init_file_system() {
+    for (int i = 0; i < NUM_BLOCKS; i++) {
+        index_block[i] = -1;
+    }
+}
+
+int allocate_block() {
+    for (int i = 0; i < NUM_BLOCKS; i++) {
+        if (index_block[i] == -1) {
+            index_block[i] = i;
+            return i;
+        }
+    }
+    return -1; 
+}
+
+void free_block(int block_num) {
+    index_block[block_num] = -1;
+}
+
+int main() {
+    init_file_system();
+
+    int block1 = allocate_block();
+    int block2 = allocate_block();
+    printf("Allocated blocks: %d, %d\n", block1, block2);
+
+    free_block(block1);
+    printf("Freed block: %d\n", block1);
+
+    int block3 = allocate_block();
+    printf("Allocated block: %d\n", block3);
+
+    return 0;
+}

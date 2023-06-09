@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct File {
+    char name[50];
+    int firstBlock;
+    int lastBlock;
+};
+
+struct Block {
+    int blockNumber;
+    int nextBlock;
+};
+
+int main() {
+    struct File files[100];
+    struct Block blocks[1000];
+    int numFiles = 0;
+
+    
+    for (int i = 0; i < 1000; i++) {
+        blocks[i].blockNumber = i;
+        blocks[i].nextBlock = -1;
+    }
+
+
+    printf("Enter file name: ");
+    scanf("%s", files[numFiles].name);
+    files[numFiles].firstBlock = 0;
+    files[numFiles].lastBlock = 0;
+    numFiles++;
+
+    
+    int currentBlock = files[numFiles-1].firstBlock;
+    while (1) {
+        printf("Enter next block number (or -1 to stop): ");
+        int nextBlock;
+        scanf("%d", &nextBlock);
+        if (nextBlock == -1) {
+            break;
+        }
+        blocks[currentBlock].nextBlock = nextBlock;
+        currentBlock = nextBlock;
+        files[numFiles-1].lastBlock = nextBlock;
+    }
+
+    
+    printf("File name: %s\n", files[numFiles-1].name);
+    printf("First block: %d\n", files[numFiles-1].firstBlock);
+    printf("Last block: %d\n", files[numFiles-1].lastBlock);
+    printf("Block list: %d", files[numFiles-1].firstBlock);
+    currentBlock = files[numFiles-1].firstBlock;
+    while (currentBlock != -1) {
+        printf(" -> %d", blocks[currentBlock].nextBlock);
+        currentBlock = blocks[currentBlock].nextBlock;
+    }
+    printf("\n");
+
+    return 0;
+}
